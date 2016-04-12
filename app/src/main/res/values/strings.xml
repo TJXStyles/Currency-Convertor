@@ -1,0 +1,7 @@
+<resources>
+    <string name="no_value">Please enter a Dollar Amount</string>
+    <string name="app_name">Currency Convertor</string>
+    <string name="enter_amount">Enter Dollar Amount to Convert to Euros</string>
+    <string name="convert_button_text">Convert</string>
+    <string name="euro">€0.00</string>
+</resources>
