@@ -3,5 +3,6 @@
     <string name="app_name">Currency Convertor</string>
     <string name="enter_amount">Enter Dollar Amount to Convert to Euros</string>
     <string name="convert_button_text">Convert</string>
-    <string name="euro">€0.00</string>
+    <string name="euro_symbol">€</string>
+    <string name="euro">0.00</string>
 </resources>

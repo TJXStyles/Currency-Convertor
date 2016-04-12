@@ -44,8 +44,16 @@
         android:text="@string/euro"
         android:id="@+id/total"
         android:textSize="30sp"
-        android:layout_below="@+id/convertButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp" />
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/euroSym"
+        android:text="@string/euro_symbol"
+        android:textSize="30sp"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/total" />
 
 </RelativeLayout>

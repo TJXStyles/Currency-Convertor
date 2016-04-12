@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
             TextView convertedAmount = (TextView) findViewById(R.id.total);
             convertedAmount.setText("" + calculateConversion(dollarAmount));
         } else {
-            Toast.makeText(this, "Please enter an Amount", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.no_value, Toast.LENGTH_SHORT).show();
         }
 
     }
