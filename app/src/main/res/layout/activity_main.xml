@@ -16,14 +16,16 @@
         android:ems="10"
         android:id="@+id/dollarField"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"/>
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/spinner_from"
         android:layout_below="@+id/dollarField"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"/>
 
     <Spinner
         android:layout_width="wrap_content"

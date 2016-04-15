@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                                     double rate = item1.getDouble(to_currency.toString());
 //                                    Toast.makeText(getBaseContext(),""+ rate, Toast.LENGTH_LONG).show();
                                     double the_result = currency_from_value * rate;
-                                    text1.setText(currency.getText().toString() + " " + spinner_from.getSelectedItem().toString() + "=");
+                                    text1.setText(currency.getText().toString() + " " + spinner_from.getSelectedItem().toString() + " =");
                                     text2.setText(String.valueOf(the_result) + " " + spinner_to.getSelectedItem().toString());
 
                                 } catch (JSONException e) {
