@@ -4,7 +4,10 @@
         <item>CAD</item>
         <item>USD</item>
         <item>EUR</item>
-        <item>GPB</item>
-        <item>CNYr</item>
+        <item>GBP</item>
+        <item>CNY</item>
     </string-array>
 </resources>
+
+
+

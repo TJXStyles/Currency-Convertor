@@ -16,6 +16,7 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,7 +25,12 @@ public class MainActivity extends AppCompatActivity {
     private Spinner spinner_to;
     private Button convert_button;
     private EditText currency;
-    private String base_url = "http://api.fixer.io/"; // latest?symbols=USD,GBP"
+    private TextView text1;
+    private TextView text2;
+    private String myJson;
+
+
+    private String base_url = "http://api.fixer.io/";
     private AQuery aq;
 
     @Override
@@ -38,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
         spinner_from = (Spinner) findViewById(R.id.spinner_from);
         spinner_to = (Spinner) findViewById(R.id.spinner_to);
         convert_button = (Button) findViewById(R.id.convertButton);
-//        TextView text1 = (TextView) findViewById(R.id.text1);
-//        TextView text2 = (TextView) findViewById(R.id.text2);
+        text1 = (TextView) findViewById(R.id.text1);
+        text2 = (TextView) findViewById(R.id.text2);
 
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -48,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         // Apply the adapter to the spinner
         spinner_from.setAdapter(adapter);
         spinner_to.setAdapter(adapter);
-34
+
         convert_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,24 +62,39 @@ public class MainActivity extends AppCompatActivity {
                 if (currency.getText().toString().length() < 1) {
                     Toast.makeText(MainActivity.this, "Please enter a value", Toast.LENGTH_SHORT).show();
                 } else {
-                    Double currency_from_value = Double.valueOf(currency.getText().toString());
+                    final Double currency_from_value = Double.valueOf(currency.getText().toString());
                     String from_currency = String.valueOf(spinner_from.getSelectedItem());
-                    String to_currency = String.valueOf(spinner_to.getSelectedItem());
+                    final String to_currency = String.valueOf(spinner_to.getSelectedItem());
 
-                    String url = base_url + "latest?symbols=" + from_currency + "," + to_currency;
+                    String url = base_url + "latest?base=" + from_currency;
 
                     aq.ajax(url, JSONObject.class, new AjaxCallback<JSONObject>() {
                         @Override
                         public void callback(String url, JSONObject json, AjaxStatus status) {
                             if (json != null) {
                                 //successful ajax call, show status code and json content
-                                Toast.makeText(aq.getContext(), status.getCode() + ":" + json.toString(), Toast.LENGTH_LONG).show();
+//                                Toast.makeText(aq.getContext(), status.getCode() + ":" + json.toString(), Toast.LENGTH_LONG).show();
+                                try {
+                                    JSONObject item1 = json.getJSONObject("rates");
+                                    double rate = item1.getDouble(to_currency.toString());
+//                                    JSONObject current_currency = json.getJSONObject()
+//                                    Double rate = json.getDouble(to_currency.toString());
+//                                    Toast.makeText(getBaseContext(),""+ rate, Toast.LENGTH_LONG).show();
+
+                                    double the_result = currency_from_value * rate;
+                                    text1.setText(currency.getText().toString() + " " + spinner_from.getSelectedItem().toString() + "=");
+                                    text2.setText(String.valueOf(the_result) + " " + spinner_to.getSelectedItem().toString());
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             } else {
                                 //ajax error, show error code
                                 Toast.makeText(aq.getContext(), "Error:" + status.getCode(), Toast.LENGTH_LONG).show();
                             }
                         }
                     });
+                    Log.i ("text1", text1.toString());
 
                 }
             }
