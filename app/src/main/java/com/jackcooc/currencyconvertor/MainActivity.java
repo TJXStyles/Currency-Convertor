@@ -5,28 +5,81 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
+
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Spinner spinner_from;
+    private Spinner spinner_to;
+    private Button convert_button;
+    private EditText currency;
+    private String base_url = "http://api.fixer.io/"; // latest?symbols=USD,GBP"
+    private AQuery aq;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new GetWebPageTask().execute("http://api.fixer.io/latest?symbols=USD");
-//    }
-//
+        aq = new AQuery(this);
+
+        currency = (EditText) findViewById(R.id.dollarField);
+        spinner_from = (Spinner) findViewById(R.id.spinner_from);
+        spinner_to = (Spinner) findViewById(R.id.spinner_to);
+        convert_button = (Button) findViewById(R.id.convertButton);
+//        TextView text1 = (TextView) findViewById(R.id.text1);
+//        TextView text2 = (TextView) findViewById(R.id.text2);
+
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.currency_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner_from.setAdapter(adapter);
+        spinner_to.setAdapter(adapter);
+34
+        convert_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (currency.getText().toString().length() < 1) {
+                    Toast.makeText(MainActivity.this, "Please enter a value", Toast.LENGTH_SHORT).show();
+                } else {
+                    Double currency_from_value = Double.valueOf(currency.getText().toString());
+                    String from_currency = String.valueOf(spinner_from.getSelectedItem());
+                    String to_currency = String.valueOf(spinner_to.getSelectedItem());
+
+                    String url = base_url + "latest?symbols=" + from_currency + "," + to_currency;
+
+                    aq.ajax(url, JSONObject.class, new AjaxCallback<JSONObject>() {
+                        @Override
+                        public void callback(String url, JSONObject json, AjaxStatus status) {
+                            if (json != null) {
+                                //successful ajax call, show status code and json content
+                                Toast.makeText(aq.getContext(), status.getCode() + ":" + json.toString(), Toast.LENGTH_LONG).show();
+                            } else {
+                                //ajax error, show error code
+                                Toast.makeText(aq.getContext(), "Error:" + status.getCode(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+
+                }
+            }
+        });
+    }
+
 //    public void convert(View view) {
 //        EditText dollarField = (EditText) findViewById(R.id.dollarField);
 //        Double dollarAmount = 0.0;
@@ -48,64 +101,4 @@ public class MainActivity extends AppCompatActivity {
 //        return amount;
 //    }
 
-
-    }
-
-    // Get URL address and gets contents as a String
-    // http://api.fixer.io/latest
-
-    private String getWebsite(String address) {
-        StringBuffer stringBuffer = new StringBuffer();
-        BufferedReader reader = null;
-
-        try {
-            URL url = new URL(address);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-
-            reader = new BufferedReader(new InputStreamReader(in));
-            String line = "";
-
-            while ((line = reader.readLine()) != null) {
-                stringBuffer.append(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return stringBuffer.toString();
-    }
-
-    public class GetWebPageTask extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected void onPostExecute(String result) {
-
-            Log.i("String", result);
-
-            super.onPostExecute(result);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate();
-        }
-
-        @Override
-        protected String doInBackground(String... url) {
-            return getWebsite(url[0]);
-        }
-    }
 }
