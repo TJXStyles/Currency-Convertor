@@ -1,8 +1,10 @@
 package com.jackcooc.currencyconvertor;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private String base_url = "http://api.fixer.io/";
     private String latest = "latest?base=";
     private AQuery aq;
+    private InputMethodManager kb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +44,13 @@ public class MainActivity extends AppCompatActivity {
         convert_button = (Button) findViewById(R.id.convertButton);
         text1 = (TextView) findViewById(R.id.text1);
         text2 = (TextView) findViewById(R.id.text2);
+        kb = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.currency_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
+
+         // Apply the adapter to the spinner
         spinner_from.setAdapter(adapter);
         spinner_to.setAdapter(adapter);
 
@@ -61,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
                     final String to_currency = String.valueOf(spinner_to.getSelectedItem());
 
                     String url = base_url + latest + from_currency;
+
+                    // Remove keyboard after Converting so conversion is displayed
+                    kb.hideSoftInputFromWindow(currency.getWindowToken(), 0);
 
                     aq.ajax(url, JSONObject.class, new AjaxCallback<JSONObject>() {
                         @Override

@@ -24,23 +24,23 @@
         android:layout_height="wrap_content"
         android:id="@+id/spinner_from"
         android:layout_below="@+id/dollarField"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"/>
+        android:layout_marginBottom="40dp"
+        android:layout_toStartOf="@+id/text1" />
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/spinner_to"
-        android:layout_below="@+id/spinner_from"
-        android:layout_centerHorizontal="true"
-        android:spinnerMode="dialog" />
+        android:spinnerMode="dialog"
+        android:layout_below="@+id/dollarField"
+        android:layout_toEndOf="@+id/spinner_from" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/convertButton"
         android:text="@string/convert"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/spinner_from"
         android:layout_centerHorizontal="true" />
     <TextView
         android:layout_width="wrap_content"
