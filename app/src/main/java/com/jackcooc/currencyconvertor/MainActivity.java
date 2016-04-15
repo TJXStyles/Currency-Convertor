@@ -1,9 +1,7 @@
 package com.jackcooc.currencyconvertor;
 
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -11,11 +9,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,10 +23,9 @@ public class MainActivity extends AppCompatActivity {
     private EditText currency;
     private TextView text1;
     private TextView text2;
-    private String myJson;
-
 
     private String base_url = "http://api.fixer.io/";
+    private String latest = "latest?base=";
     private AQuery aq;
 
     @Override
@@ -46,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
         convert_button = (Button) findViewById(R.id.convertButton);
         text1 = (TextView) findViewById(R.id.text1);
         text2 = (TextView) findViewById(R.id.text2);
-
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.currency_array, android.R.layout.simple_spinner_item);
@@ -64,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     final Double currency_from_value = Double.valueOf(currency.getText().toString());
                     String from_currency = String.valueOf(spinner_from.getSelectedItem());
-                    final String to_currency = String.valueOf(spinner_to.getSelectedItem());
+                    String to_currency = String.valueOf(spinner_to.getSelectedItem());
 
-                    String url = base_url + "latest?base=" + from_currency;
+                    String url = base_url + latest + from_currency;
 
                     aq.ajax(url, JSONObject.class, new AjaxCallback<JSONObject>() {
                         @Override
@@ -77,10 +71,7 @@ public class MainActivity extends AppCompatActivity {
                                 try {
                                     JSONObject item1 = json.getJSONObject("rates");
                                     double rate = item1.getDouble(to_currency.toString());
-//                                    JSONObject current_currency = json.getJSONObject()
-//                                    Double rate = json.getDouble(to_currency.toString());
 //                                    Toast.makeText(getBaseContext(),""+ rate, Toast.LENGTH_LONG).show();
-
                                     double the_result = currency_from_value * rate;
                                     text1.setText(currency.getText().toString() + " " + spinner_from.getSelectedItem().toString() + "=");
                                     text2.setText(String.valueOf(the_result) + " " + spinner_to.getSelectedItem().toString());
@@ -94,32 +85,8 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     });
-                    Log.i ("text1", text1.toString());
-
                 }
             }
         });
     }
-
-//    public void convert(View view) {
-//        EditText dollarField = (EditText) findViewById(R.id.dollarField);
-//        Double dollarAmount = 0.0;
-//
-//        final String myStr = dollarField.getText().toString();
-//        if (!myStr.isEmpty()) {
-//            dollarAmount = Double.parseDouble(myStr);
-//            TextView convertedAmount = (TextView) findViewById(R.id.total);
-//            convertedAmount.setText("" + calculateConversion(dollarAmount));
-//        } else {
-//            Toast.makeText(this, R.string.no_value, Toast.LENGTH_SHORT).show();
-//        }
-//
-//    }
-
-//    private Double calculateConversion(Double amount) {
-//        Double euroAmount = 1.68;
-//        amount *= euroAmount;
-//        return amount;
-//    }
-
 }
