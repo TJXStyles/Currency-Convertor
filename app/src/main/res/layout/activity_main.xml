@@ -23,8 +23,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/spinner_from"
         android:layout_below="@+id/dollarField"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp" />
+        android:layout_centerHorizontal="true" />
 
     <Spinner
         android:layout_width="wrap_content"

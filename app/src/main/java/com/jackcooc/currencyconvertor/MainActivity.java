@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     final Double currency_from_value = Double.valueOf(currency.getText().toString());
                     String from_currency = String.valueOf(spinner_from.getSelectedItem());
-                    String to_currency = String.valueOf(spinner_to.getSelectedItem());
+                    final String to_currency = String.valueOf(spinner_to.getSelectedItem());
 
                     String url = base_url + latest + from_currency;
 
