@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
 
     private Spinner spinner_from;
     private Spinner spinner_to;
-    private Button convert_button;
     private EditText currency;
     private TextView text1;
     private TextView text2;
@@ -37,14 +36,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         aq = new AQuery(this);
-
         currency = (EditText) findViewById(R.id.dollarField);
         spinner_from = (Spinner) findViewById(R.id.spinner_from);
         spinner_to = (Spinner) findViewById(R.id.spinner_to);
-        convert_button = (Button) findViewById(R.id.convertButton);
         text1 = (TextView) findViewById(R.id.text1);
         text2 = (TextView) findViewById(R.id.text2);
         kb = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        Button convert_button = (Button) findViewById(R.id.convertButton);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.currency_array, android.R.layout.simple_spinner_item);
@@ -58,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (currency.getText().toString().length() < 1) {
+                if (currency.getText().toString().isEmpty()) {
                     Toast.makeText(MainActivity.this, "Please enter a value", Toast.LENGTH_SHORT).show();
                 } else {
                     final Double currency_from_value = Double.valueOf(currency.getText().toString());

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="curr_1">Choose a Currency</string>
+    <string name="curr_2">Choose a Currency</string>
     <string-array name="currency_array">
         <item>CAD</item>
         <item>USD</item>
